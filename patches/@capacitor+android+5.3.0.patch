@@ -1,0 +1,28 @@
+diff --git a/node_modules/@capacitor/android/capacitor/src/main/java/com/getcapacitor/JSInjector.java b/node_modules/@capacitor/android/capacitor/src/main/java/com/getcapacitor/JSInjector.java
+index f886da2..abc549c 100644
+--- a/node_modules/@capacitor/android/capacitor/src/main/java/com/getcapacitor/JSInjector.java
++++ b/node_modules/@capacitor/android/capacitor/src/main/java/com/getcapacitor/JSInjector.java
+@@ -5,6 +5,7 @@ import java.io.InputStream;
+ import java.io.InputStreamReader;
+ import java.io.Reader;
+ import java.nio.charset.StandardCharsets;
++import java.util.regex.Pattern;
+
+ /**
+  * JSInject is responsible for returning Capacitor's core
+@@ -69,12 +70,12 @@ class JSInjector {
+      * @return
+      */
+     public InputStream getInjectedStream(InputStream responseStream) {
+-        String js = "<script type=\"text/javascript\">" + getScriptString() + "</script>";
++        String js = "<script type=\"text/javascript\">" + getScriptString().replace("${", "\\${") + "</script>";
+         String html = this.readAssetStream(responseStream);
+         if (html.contains("<head>")) {
+-            html = html.replace("<head>", "<head>\n" + js + "\n");
++            html = html.replaceFirst("<head>", "<head>\n" + js + "\n");
+         } else if (html.contains("</head>")) {
+-            html = html.replace("</head>", js + "\n" + "</head>");
++            html = html.replaceFirst("</head>", js + "\n" + "</head>");
+         } else {
+             Logger.error("Unable to inject Capacitor, Plugins won't work");
+         }
