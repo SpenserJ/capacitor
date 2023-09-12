@@ -1,0 +1,11 @@
+{
+  "appId": "com.spenserj.repro",
+  "appName": "repro-android-duplicate-head-injection",
+  "bundledWebRuntime": false,
+  "webDir": "dist",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  }
+}
